@@ -640,3 +640,20 @@
                         def get_instance(self) -> int:
                             pass
                     objects = MyManager()
+
+-   case: aiterate
+    main: |
+        from myapp.models import User
+
+        async def main() -> None:
+            async for user in User.objects.aiterator():
+                reveal_type(user)  # N: Revealed type is "myapp.models.User"
+    installed_apps:
+        - myapp
+    files:
+        -   path: myapp/__init__.py
+        -   path: myapp/models.py
+            content: |
+                from django.db import models
+                class User(models.Model):
+                    pass
